@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from webbrowser import get
+from django.shortcuts import render, redirect
 
 from . import util
 
@@ -13,6 +14,11 @@ def title(request, title):
     return render(request, "encyclopedia/content.html", {
         "entry": util.get_entry(title)
     })
+
+
+def newPage(request):
+    if request.method == 'GET':
+        return render(request, "encyclopedia/newPage.html")
 
 
 def search(request):
@@ -33,6 +39,22 @@ def search(request):
             "entry": word
         })
 
-    
-    
 
+def create(request):
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    word = util.get_entry(title)
+    if not word:
+        try:
+            util.save_entry(title, content);
+            return render(request, "encyclopedia/content.html", {
+                "entry": util.get_entry(title)
+            })
+        except:
+            return render(request, "encyclopedia/error.html", {
+                "errorMessage": "undefiend error"
+            })
+    else:
+        return render(request, "encyclopedia/error.html", {
+            "errorMessage": "This title is already exists."
+        })
