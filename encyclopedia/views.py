@@ -12,6 +12,7 @@ def index(request):
 
 def title(request, title):
     return render(request, "encyclopedia/content.html", {
+        "title": title,
         "entry": util.get_entry(title)
     })
 
@@ -58,3 +59,11 @@ def create(request):
         return render(request, "encyclopedia/error.html", {
             "errorMessage": "This title is already exists."
         })
+
+
+def edit(request, title):
+    content = util.get_entry(title)
+    return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "content": content
+    })
