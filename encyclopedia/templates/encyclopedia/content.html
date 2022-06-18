@@ -8,7 +8,7 @@
     <h1>Content Pages</h1>
 
       {% if entry %}
-          {{ entry }}
+          {{ entry |safe }}
       {% else %}
         No content was found.
       {% endif %}

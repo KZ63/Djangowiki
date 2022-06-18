@@ -1,5 +1,6 @@
 from webbrowser import get
 from django.shortcuts import render, redirect
+import markdown2
 
 from . import util
 
@@ -13,7 +14,7 @@ def index(request):
 def title(request, title):
     return render(request, "encyclopedia/content.html", {
         "title": title,
-        "entry": util.get_entry(title)
+        "entry": markdown2.markdown(util.get_entry(title))
     })
 
 
