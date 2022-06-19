@@ -62,9 +62,19 @@ def create(request):
         })
 
 
-def edit(request, title):
+def showEditPage(request, title):
     content = util.get_entry(title)
     return render(request, "encyclopedia/edit.html", {
         "title": title,
         "content": content
     })
+
+
+def edit(request):
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    try:
+        util.save_entry(title, content)
+    except:
+        print('Error')
+    return redirect('title', title)
